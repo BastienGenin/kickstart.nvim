@@ -142,6 +142,13 @@ require('lazy').setup({
     },
   },
   {
+    -- Astro theme
+    'AstroNvim/astrotheme',
+    priority = 1000,
+    lazy = false,
+    config = true,
+  },
+  {
     "nvim-tree/nvim-tree.lua",
     version = "*",
     lazy = false,
@@ -150,14 +157,7 @@ require('lazy').setup({
     },
     config = function()
       require("nvim-tree").setup {}
-    end,
-  },
-  {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme('astrotheme')
     end,
   },
 
@@ -168,7 +168,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'astrotheme',
         component_separators = '|',
         section_separators = '',
       },
