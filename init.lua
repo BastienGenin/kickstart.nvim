@@ -149,18 +149,24 @@ require('lazy').setup({
     config = true,
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    version = "*",
-    lazy = false,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
     },
-    config = function()
-      require("nvim-tree").setup {}
+    config = function ()
       vim.cmd.colorscheme('astrotheme')
-    end,
+      require('neo-tree').setup({
+        default_component_configs = {
+          indent = {
+            last_indent_marker = '╰'
+          },
+        },
+      })
+    end
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -397,10 +403,25 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
+-- NeoTree keymaps
+vim.keymap.set(
+  'n',
+  '<leader>o',
+  function()
+    if vim.bo.filetype == "neo-tree" then
+      vim.cmd.wincmd "p"
+    else
+      vim.cmd.Neotree "focus"
+    end
+  end,
+  { desc = 'Swap Neotree Focus'})
+
+vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle Neotree' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+-- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
