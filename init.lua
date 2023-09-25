@@ -298,6 +298,37 @@ require('lazy').setup({
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
+
+  -- Mini files
+  {
+    'echasnovski/mini.files',
+    version = '*',
+    config = function()
+      require('mini.files').setup()
+
+      local show_dotfiles = true
+      local filter_show = function(fs_entry)
+        return true
+      end
+      local filter_hide = function(fs_entry)
+        return not vim.startswith(fs_entry.name, '.')
+      end
+
+      local toggle_dotfiles = function ()
+        show_dotfiles = not show_dotfiles
+        local new_filter = show_dotfiles and filter_show or filter_hide
+      end
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "MiniFilesBufferCreate",
+        callback = function (args)
+          local buf_id = args.data.buf_id
+
+          vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
+        end,
+      })
+    end
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -481,6 +512,24 @@ vim.keymap.set(
   { desc = 'Swap Neotree Focus' })
 
 vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle Neotree' })
+
+-- Mini Files keymaps
+vim.keymap.set(
+  'n',
+  '<leader>fm',
+  function()
+    require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
+  end,
+  { desc = 'Open MiniFiles (directory of current file)' })
+
+vim.keymap.set(
+  'n',
+  '<leader>fM',
+  function()
+    require('mini.files').open(vim.loop.cwd(), true)
+  end,
+  { desc = 'Open MiniFiles (cwd)' }
+)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
