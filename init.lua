@@ -329,6 +329,23 @@ require('lazy').setup({
       })
     end
   },
+
+  -- Surround
+  {
+    'kylechui/nvim-surround',
+    version = '*',
+    event = 'VeryLazy',
+    config = function()
+      require('nvim-surround').setup()
+    end
+  },
+
+  -- Autopairs
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    opts = {} -- equivalent to setup({}) function
+  },
 }, {})
 
 -- [[ Setting options ]]
