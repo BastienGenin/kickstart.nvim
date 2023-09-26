@@ -314,14 +314,14 @@ require('lazy').setup({
         return not vim.startswith(fs_entry.name, '.')
       end
 
-      local toggle_dotfiles = function ()
+      local toggle_dotfiles = function()
         show_dotfiles = not show_dotfiles
         local new_filter = show_dotfiles and filter_show or filter_hide
       end
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesBufferCreate",
-        callback = function (args)
+        callback = function(args)
           local buf_id = args.data.buf_id
 
           vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
