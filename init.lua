@@ -346,6 +346,15 @@ require('lazy').setup({
     event = 'InsertEnter',
     opts = {} -- equivalent to setup({}) function
   },
+
+  -- Lazy Git
+  {
+    "kdheepak/lazygit.nvim",
+    -- optionnal for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    }
+  },
 }, {})
 
 -- [[ Setting options ]]
