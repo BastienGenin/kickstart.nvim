@@ -42,8 +42,7 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Install package manager
---    https://github.com/folke/lazy.nvim
+-- Install package manager https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -92,6 +91,14 @@ require('lazy').setup({
     },
   },
 
+  -- HARDTIME
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {
+      showmode = false
+    }
+  },
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
@@ -116,6 +123,15 @@ require('lazy').setup({
       icons = {
         separator = "---"
       },
+    },
+  },
+
+  -- Lazy Git
+  {
+    "kdheepak/lazygit.nvim",
+    -- optionnal for floating window border decoration
+    dependencies = {
+      "nvim-lua/plenary.nvim",
     },
   },
 
@@ -149,6 +165,7 @@ require('lazy').setup({
       end,
     },
   },
+<<<<<<< Updated upstream
   {
     -- Astro theme
     'AstroNvim/astrotheme',
@@ -227,6 +244,9 @@ require('lazy').setup({
       alpha.setup(dashboard.config)
     end
   },
+=======
+  { "AstroNvim/astrotheme", config = true, priority = 1000 },
+>>>>>>> Stashed changes
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -244,12 +264,10 @@ require('lazy').setup({
   {
     -- Add indentation guides even on blank lines
     'lukas-reineke/indent-blankline.nvim',
+    main = "ibl",
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    opts = {},
   },
 
   -- "gc" to comment visual regions/lines
@@ -346,16 +364,8 @@ require('lazy').setup({
     event = 'InsertEnter',
     opts = {} -- equivalent to setup({}) function
   },
-
-  -- Lazy Git
-  {
-    "kdheepak/lazygit.nvim",
-    -- optionnal for floating window border decoration
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    }
-  },
 }, {})
+vim.cmd.colorscheme('astrotheme')
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -410,6 +420,13 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- Remaps basic vim motion for orthoLinear keebs
+vim.keymap.set('n', 'j', 'h')
+-- vim.keymap.set('n', 'k', '')
+vim.keymap.set('n', 'l', 'j')
+vim.keymap.set('n', 'm', 'l')
+vim.keymap.set('n', 'h', '<Nop>')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
