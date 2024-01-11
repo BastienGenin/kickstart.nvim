@@ -165,7 +165,6 @@ require('lazy').setup({
       end,
     },
   },
-<<<<<<< Updated upstream
   {
     -- Astro theme
     'AstroNvim/astrotheme',
@@ -244,9 +243,6 @@ require('lazy').setup({
       alpha.setup(dashboard.config)
     end
   },
-=======
-  { "AstroNvim/astrotheme", config = true, priority = 1000 },
->>>>>>> Stashed changes
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
