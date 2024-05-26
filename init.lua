@@ -91,15 +91,6 @@ require('lazy').setup({
     },
   },
 
-  -- HARDTIME
-  {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    opts = {
-      hint = true
-    }
-  },
-
   -- Autocompletion
   {
     'hrsh7th/nvim-cmp',
@@ -112,7 +103,7 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
 
       -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
+      -- 'rafamadriz/friendly-snippets',
     },
   },
 
@@ -171,26 +162,13 @@ require('lazy').setup({
     'AstroNvim/astrotheme',
     priority = 1000,
     lazy = false,
-    config = true,
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-      "MunifTanjim/nui.nvim",
+    config = {
+      style = {
+        transparent = true,
+        inactive = false,
+        neotree = false,
+      },
     },
-    config = function()
-      vim.cmd.colorscheme('astrotheme')
-      require('neo-tree').setup({
-        default_component_configs = {
-          indent = {
-            last_indent_marker = '╰'
-          },
-        },
-      })
-    end
   },
   {
     'goolord/alpha-nvim',
@@ -227,14 +205,14 @@ require('lazy').setup({
       dashboard.section.footer.opts.hl = "DashboardFooter"
 
       dashboard.section.buttons.val = {
-        -- dashboard.button("gr", "  Find text", ":Telescope live_grep <CR>"),
+        dashboard.button("fr", "󰊄 Find text", ":Telescope live_grep <CR>"),
         -- dashboard.button("e", "  New file", ":ene <CR>"),
-        -- dashboard.button("ff", "  Find file", ":Telescope find_files <CR>"),
+        dashboard.button("ff", "󰱼  Find file", ":Telescope find_files <CR>"),
         -- dashboard.button("m", "  Keymaps", ":e ~/.config/nvim/lua/v9/keymaps.lua <CR>"),
-        dashboard.button("fo", "  Recently used files", ":Telescope oldfiles <CR>"),
-        dashboard.button("e", "  Toggle Neotree", ":Neotree <CR>"),
-        dashboard.button("p", "  Mason", ":Mason <CR>"),
-        dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
+        dashboard.button("fo", "󱋡  Recently used files", ":Telescope oldfiles <CR>"),
+        dashboard.button("e", "󰙅  Toggle Neotree", ":Neotree <CR>"),
+        dashboard.button("p", "󰡢  Mason", ":Mason <CR>"),
+        dashboard.button("q", "󰩈  Quit Neovim", ":qa<CR>"),
       }
 
       dashboard.config.opts.noautocmd = true
@@ -304,7 +282,11 @@ require('lazy').setup({
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
   require 'kickstart.plugins.autoformat',
-  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.trouble',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.hardtime',
+  -- require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.cellular-automaton',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -362,7 +344,6 @@ require('lazy').setup({
     opts = {} -- equivalent to setup({}) function
   },
 }, {})
-vim.cmd.colorscheme('astrotheme')
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -456,6 +437,7 @@ pcall(require('telescope').load_extension, 'fzf')
 vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[ff] Find files' })
+vim.keymap.set('n', '<leader>fr', require('telescope.builtin').live_grep, { desc = '[fr] Find grep' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -476,15 +458,15 @@ vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = 
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'elixir', 'heex', 'eex' },
+  ensure_installed      = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'elixir', 'heex', 'eex' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-  auto_install = false,
+  auto_install          = false,
   -- ignore_install = [],
-  modules = {},
-  sync_install  = false,
-  highlight = { enable = true },
-  indent = { enable = true },
+  modules               = {},
+  sync_install          = false,
+  highlight             = { enable = true },
+  indent                = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -494,7 +476,7 @@ require('nvim-treesitter.configs').setup {
       node_decremental = '<M-space>',
     },
   },
-  textobjects = {
+  textobjects           = {
     select = {
       enable = true,
       lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
@@ -539,6 +521,8 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+vim.cmd.colorscheme('astrotheme')
 
 -- NeoTree keymaps
 vim.keymap.set(
