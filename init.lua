@@ -343,7 +343,19 @@ require('lazy').setup({
     event = 'InsertEnter',
     opts = {} -- equivalent to setup({}) function
   },
+
+  -- LaTeX
+  {
+    "lervag/vimtex",
+    lazy = false, -- We don't want to lazy load vimtex
+    -- tag = "v2.15", -- Use a specific tag
+    init = function()
+      -- VimTeX config
+      vim.g.vimtex_view_method = "zathura"
+    end
+  },
 }, {})
+
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
